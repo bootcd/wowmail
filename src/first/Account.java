@@ -173,7 +173,7 @@ class Account {
             this.setimapHost(imapHost);
             
             System.out.println("Insert port for IMAP:");
-           String imapPort = scan.nextLine();
+            String imapPort = scan.nextLine();
             this.setimapPort(imapPort);
         }
         
@@ -187,18 +187,98 @@ class Account {
         }
     }
     
+ private void prefSwitcher(int chose){
+	 Scanner scan = new Scanner(System.in);
+		   switch(chose) {
+		   case 1:
+			   System.out.print("Change Account Name");
+			   String name = scan.nextLine();
+		       this.setName(name);
+		       break;
+		       
+		   case 2:
+			   
+		        System.out.print("change mailbox:");
+		        String mailBox = scan.nextLine();
+		        this.setMailBox(mailBox);
+		        break;
+		   case 3:    
+		        System.out.print("change password:");
+		        String password = scan.nextLine();
+		        this.setPassword(password);
+		        break;
+		   case 4:     
+		        System.out.print("change username:");
+		        String username = scan.nextLine();
+		        this.setUserName(username);
+		        break;
+		   case 5:                   
+		        System.out.print("change SMTP server:");
+		        String smtpHost = scan.nextLine();
+		        this.setsmtpHost(smtpHost);
+		        break;
+		   case 6:
+		        System.out.print("change port for SMTP:");
+		        String smtpPort = scan.nextLine();
+		        this.setsmtpPort(smtpPort);
+		        break;
+		      			   
+		   }
+	   }
+ private void imapSwitcher(int chose){
+	 Scanner scan = new Scanner(System.in);
+	 switch(chose){
+	 case 7:
+	 System.out.println("Change your IMAP server:");
+	 String imapHost = scan.nextLine();
+     this.setimapHost(imapHost);
+     break;
+	 
+	 case 8:
+     System.out.println("Change port for IMAP:");
+     String imapPort = scan.nextLine();
+     this.setimapPort(imapPort);
+     break;
+	 }
+ }
+    
+ private void popSwitcher(int chose){
+	 Scanner scan = new Scanner(System.in);
+	 switch(chose){
+	 case 7:
+	 System.out.print("Change your POP server:");
+     String popHost = scan.nextLine();
+     this.setpopHost(popHost);
+     break;
+	 case 8:
+     System.out.print("Change port for POP3:");
+     String popPort = scan.nextLine();
+     this.setpopPort(popPort);
+     break;
+	 }
+ }
    void change(){
+	   
 	   Scanner scan = new Scanner(System.in);
-	   String chasngeChose = scan.nextLine();
+	   
        System.out.println("Chose preference to change:");
-       System.out.print("1)Account Name; 2)Account mailbox 3)Account password; 4)SMTP server; 5)SMTP port");
+       System.out.print("1)Account Name; 2)Account mailbox  3)Account username 4)Account password; 5)SMTP server; 6)SMTP port");
        if (this.imapHost!=null & this.imapPort!=null){
-           System.out.println("6) IMAP server; 7) IMAP port");
+           System.out.println("7) IMAP server; 8) IMAP port");
+           int chasngeChose = scan.nextInt();
+           prefSwitcher(chasngeChose);
+           imapSwitcher(chasngeChose);
+           
+           
            
        }
        else {
-           System.out.println("6) POP server; 7) POP port");
+           System.out.println("7) POP server; 8) POP port");
+           int chasngeChose = scan.nextInt();
+           prefSwitcher(chasngeChose);
+           popSwitcher(chasngeChose);
        }
+       
        
        
        
