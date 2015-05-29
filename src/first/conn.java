@@ -23,10 +23,15 @@ public class conn {
        }
       
     
-    public static void WriteDB(Account account) throws SQLException
+    public static void writeAccount(Account account) throws SQLException
     {
     	
-    	String insertQ = "INSERT INTO 'account' ('name' , 'mailbox') VALUES ('"+ account.getName() + "','" + account.getmailBox() + "');" ;
+    	String insertQ = "INSERT INTO 'account' ('name' , 'mailbox' , 'password' , 'smtphost' , "
+    			+ "'smtpport' , 'imaphost' , 'imapport' , 'pophost' , 'popport' , 'smtpauth' , 'smtpstarttlsenable')"
+    			+ "VALUES ('"+ account.getName() + "','" + account.getmailBox() + "','" + account.getPassword() + "','"
+    			+ account.getsmtpHost() + "','" + account.getsmtpPort() +"','" + account.getimapHost() + "','" 
+    			+ account.getimapPort() + "','" + account.getpopHost() + "','" + account.getpopPort() + "','" + 
+    			String.valueOf(account.getSmtpAuth()) + "','" + String.valueOf(account.getsmtpStartTlsEnable()) +"');" ;
            statmt.execute(insertQ);
           
           

@@ -1,6 +1,7 @@
 package first;
 
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 
@@ -294,11 +295,22 @@ class Account {
      System.out.println("Imap Host= " + this.imapHost);
      System.out.println("Imap Port= " + this.imapPort);
      }
-     else 
+     else {
      System.out.println(this.popHost);
-     System.out.println(this.popPort);   
+     System.out.println(this.popPort);
+     }
   }
+
   
+  static boolean existTest() throws ClassNotFoundException, SQLException{
+	 
+	 conn.Conn();
+	  
+	  
+	  
+	  
+	 return true;
+ }
     
 }
 
