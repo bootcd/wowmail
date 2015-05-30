@@ -1,8 +1,13 @@
-package first;
+package main;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.Scanner;
+
+import mailer.Account;
+import mailer.Mail;
+import mailer.conn;
+
 
 public class Main {
 	

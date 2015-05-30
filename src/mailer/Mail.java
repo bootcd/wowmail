@@ -1,4 +1,4 @@
-package first;
+package mailer;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
@@ -46,7 +46,7 @@ public class Mail {
 		}
 	
 	
-	void setToFromText(){
+	public void setToFromText(){
 		Scanner scan = new Scanner(System.in);
 		System.out.print("Insert recepient: ");
 		String to = scan.nextLine();
@@ -71,7 +71,7 @@ public class Mail {
 	
 	
 	
-	void compileAndSend(Account account) throws UnsupportedEncodingException{
+	public void compileAndSend(Account account) throws UnsupportedEncodingException{
 		
 		Session session = Session.getInstance(setProps(account), new Authenticator(){
 			protected PasswordAuthentication getPasswordAuthentication() 

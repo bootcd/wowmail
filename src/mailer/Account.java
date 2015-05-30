@@ -1,11 +1,11 @@
-package first;
+package mailer;
 
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
 
-class Account {
+public class Account {
     String name;
     String mailBox;
     String password;
@@ -119,7 +119,7 @@ class Account {
         return this.popPort;
     }
     
-    void add() {
+    public void add() {
         
         Scanner scan = new Scanner(System.in);
         System.out.print("Insert name:");
@@ -258,7 +258,7 @@ class Account {
      break;
 	 }
  }
-   void change(){
+   public void change(){
 	   
 	   Scanner scan = new Scanner(System.in);
 	   
@@ -285,7 +285,7 @@ class Account {
        
    }
   
-  void showPreferences(){
+  public void showPreferences(){
    System.out.println(this.name);
      System.out.println(this.mailBox);
      System.out.println(this.password);
