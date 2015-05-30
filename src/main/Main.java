@@ -1,12 +1,14 @@
 package main;
 
 import java.io.UnsupportedEncodingException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
 import mailer.Account;
 import mailer.Mail;
 import mailer.conn;
+
 
 
 public class Main {
@@ -24,28 +26,26 @@ static	void choseMenuWithAcc(){
 
 
 public static void main(String[] args) throws UnsupportedEncodingException, SQLException, ClassNotFoundException {
-	
-	
-	
+
 System.out.println("Hi there! This is WOWMail! The dumbest program in the world. It`s like a gayworm shit.");
-
-
-
-
-
 
 Scanner scan = new Scanner(System.in);
 
 Account account =  new Account();
+conn.Conn();
+String insertQ = "SELECT name, mailbox from account;";
 
-
-//String fff = String.valueOf(Account.existTest());
-//System.out.println(fff);
+ResultSet rs = mailer.conn.statmt.executeQuery(insertQ);
 
 int chose=0;
 while (chose != 5){
 	System.out.println("Chose what you want");
-	Main.choseMenuNoAcc();
+	if (!rs.next()){
+	choseMenuNoAcc();
+	}
+	else{
+		choseMenuWithAcc();
+	}
     chose = scan.nextInt();	
 	switch(chose){
 	case 1:
