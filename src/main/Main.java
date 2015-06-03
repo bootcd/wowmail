@@ -30,16 +30,20 @@ public static void main(String[] args) throws UnsupportedEncodingException, SQLE
 System.out.println("Hi there! This is WOWMail! The dumbest program in the world. It`s like a gayworm shit.");
 
 Scanner scan = new Scanner(System.in);
-
-Account account =  new Account();
-conn.Conn();
-String insertQ = "SELECT name, mailbox from account;";
-
-ResultSet rs = mailer.conn.statmt.executeQuery(insertQ);
-
+Account account;
 int chose=0;
 while (chose != 5){
+	conn.Conn();
+	String insertQ = "SELECT name, mailbox from account;";
+	ResultSet rs = mailer.conn.statmt.executeQuery(insertQ);
+	conn.CloseDB();
+/*	while(rs.next()){
+		
+		System.out.println(rs.getString("name"));
+	}*/
+
 	System.out.println("Chose what you want");
+	
 	if (!rs.next()){
 	choseMenuNoAcc();
 	}
@@ -47,37 +51,33 @@ while (chose != 5){
 		choseMenuWithAcc();
 	}
     chose = scan.nextInt();	
-	switch(chose){
+   	switch(chose){
 	case 1:
 		
-	    account.add();
-	    account.showPreferences();
-	    System.out.println("Do you want to save this E-mail account?");
-	    System.out.println("1) yes  2) no");
-	    int saveChose = scan.nextInt();
-	    if(saveChose==1){
+	Account.setPrefsWithUserDailog();
+	System.out.println(Account.preferencies.get("mailbox"));
+    System.out.println("Do you want to save this E-mail account?");
+	System.out.println("1) yes  2) no");
+	int saveChose = scan.nextInt();
+	  if(saveChose==1){
 	    	conn.Conn();         
-		    conn.writeAccount(account);
-	    	
-	    }
-	    
-	     break;
-	
-	case 2:
-		 account.change();
-		 break;
+		    conn.writeAccount(Account.preferencies);
+	    	conn.CloseDB();
+	    	break;
+	  }
+
 	case 3:
+		account = Account.createAccObject(Account.preferencies);
 		Mail mail = new Mail();
-	     mail.setToFromText();
-	     mail.compileAndSend(account);
-	     break;
+	    mail.setToFromText();
+	    mail.compileAndSend(account);
+	    break;
 }
-	        
-	
-	     
+
 		}
 System.exit(1);
-	}
+	
+}
 }
 
 

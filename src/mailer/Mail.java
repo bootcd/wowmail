@@ -63,8 +63,8 @@ public class Mail {
 
 	static Properties setProps(Account account){
 		Properties props = new Properties();
-		props.put("mail.smtp.auth", String.valueOf(account.smtpAuth));
-		props.put("mail.smtp.starttls.enable", String.valueOf(account.smtpStartTlsEnable));
+		props.put("mail.smtp.auth", account.getSmtpAuth());
+		props.put("mail.smtp.starttls.enable", account.getsmtpStartTlsEnable());
 		props.put("mail.smtp.host", account.getsmtpHost());
 		props.put("mail.smtp.port", account.getsmtpPort());
 		return props;

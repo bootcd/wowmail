@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Map;
 
 
 
@@ -25,25 +26,25 @@ public class conn {
        }
       
     
-    public static void writeAccount(Account account) throws SQLException
+    public static void writeAccount(Map <String, String> prefs) throws SQLException
     {
-    	
+   
     	String insertQ = "INSERT INTO 'account' ('name' , 'mailbox' , 'password' , 'smtphost' , "
     			+ "'smtpport' , 'imaphost' , 'imapport' , 'pophost' , 'popport' , 'smtpauth' , 'smtpstarttlsenable')"
-    			+ "VALUES ('"+ account.getName() + "','" + account.getmailBox() + "','" + account.getPassword() + "','"
-    			+ account.getsmtpHost() + "','" + account.getsmtpPort() +"','" + account.getimapHost() + "','" 
-    			+ account.getimapPort() + "','" + account.getpopHost() + "','" + account.getpopPort() + "','" + 
-    			String.valueOf(account.getSmtpAuth()) + "','" + String.valueOf(account.getsmtpStartTlsEnable()) +"');" ;
+    			+ "VALUES ('"+ prefs.get("name") + "','" + prefs.get("mailbox") + "','" + prefs.get("password") + "','"
+    			+ prefs.get("smtphost") + "','" + prefs.get("smtpport") +"','" + prefs.get("imaphost") + "','" 
+    			+ prefs.get("imapport") + "','" + prefs.get("pophost") + "','" + prefs.get("popport") + "','" 
+    			+ prefs.get("smtpauth") + "','" + prefs.get("smtpstarttlsenable") +"');" ;
            statmt.execute(insertQ);
           
           
-           System.out.println("Таблица заполнена");
+           System.out.println("Аккаунт сохранен!");
     }
     public static void CloseDB() throws ClassNotFoundException, SQLException
     {
      conn.close();
      statmt.close();
-   //  resSet.close();
+     //resSet.close();
      
      System.out.println("Соединения закрыты");
     }
