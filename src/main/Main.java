@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import mailer.Account;
 import mailer.Mail;
-import mailer.conn;
+import mailer.Dbworks;
 
 
 
@@ -15,11 +15,11 @@ public class Main {
 	
 	
 static	void choseMenuNoAcc(){
-		System.out.println("1) Create Mal Account \n2) Change some settings \n3) Send E-mail \n4) Exit");	
+		System.out.println("1) Create Mal Account \n2) Chose account \n3) Send E-mail \n4) Exit");	
 	}	
 
 static	void choseMenuWithAcc(){
-	System.out.println("1) Create Mal Account \n2) Change some settings \n3) Send E-mail \n4) Use existing account \n5) Exit");	
+	System.out.println("1) Create Mal Account \n2) Chose account  \n3) Send E-mail \n4) Exit");	
 }
 
 
@@ -32,16 +32,11 @@ System.out.println("Hi there! This is WOWMail! The dumbest program in the world.
 Scanner scan = new Scanner(System.in);
 Account account;
 int chose=0;
-while (chose != 5){
-	conn.Conn();
+while (chose != 4){
+	Dbworks.Conn();
 	String insertQ = "SELECT name, mailbox from account;";
-	ResultSet rs = mailer.conn.statmt.executeQuery(insertQ);
-	conn.CloseDB();
-/*	while(rs.next()){
-		
-		System.out.println(rs.getString("name"));
-	}*/
-
+	ResultSet rs = mailer.Dbworks.statmt.executeQuery(insertQ);
+	
 	System.out.println("Chose what you want");
 	
 	if (!rs.next()){
@@ -60,12 +55,23 @@ while (chose != 5){
 	System.out.println("1) yes  2) no");
 	int saveChose = scan.nextInt();
 	  if(saveChose==1){
-	    	conn.Conn();         
-		    conn.writeAccount(Account.preferencies);
-	    	conn.CloseDB();
+	    	Dbworks.Conn();         
+		    Dbworks.writeAccPrefs(Account.preferencies);
+	    	Dbworks.CloseDB();
 	    	break;
 	  }
 
+	case 2:
+		System.out.print(rs.getString("mailbox") + " - ");
+		System.out.println(rs.getString("name"));
+		
+		Dbworks.getAccPrefs(rs.getString("mailbox"));
+		
+		Dbworks.CloseDB();
+		break;
+	  
+	  
+	  
 	case 3:
 		account = Account.createAccObject(Account.preferencies);
 		Mail mail = new Mail();
