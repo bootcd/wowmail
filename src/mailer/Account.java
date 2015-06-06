@@ -214,7 +214,7 @@ Account(Map<String, String> prefs){
             }
     }
     
-    
+    // Метод, позволяющий выбрать настройку аккаунта для изменения
  private void prefSwitcher(int chose){
 	 Scanner scan = new Scanner(System.in);
 		   switch(chose) {
@@ -253,6 +253,9 @@ Account(Map<String, String> prefs){
 		      			   
 		   }
 	   }
+ 
+ 	// Метод, позволяющий изменить настройки аккаунта, если аккаунт IMAP
+ 
  private void imapSwitcher(int chose){
 	 Scanner scan = new Scanner(System.in);
 	 switch(chose){
@@ -270,16 +273,23 @@ Account(Map<String, String> prefs){
 	 }
  }
     
- private void popSwitcher(int chose){
+//Метод, позволяющий изменить настройки аккаунта, если аккаунт POP
+ 
+  private void popSwitcher(int chose){
 
 	 Scanner scan = new Scanner(System.in);
+	 
 	 switch(chose){
+	 
 	 case 7:
+		 
 	 System.out.print("Change your POP server:");
      String popHost = scan.nextLine();
      this.setpopHost(popHost);
      break;
+     
 	 case 8:
+		 
      System.out.print("Change port for POP3:");
      String popPort = scan.nextLine();
      this.setpopPort(popPort);
@@ -287,6 +297,8 @@ Account(Map<String, String> prefs){
 	 }
  }
 
+ // Общий метод изменения настроек аккаунта 
+  
  public void change(){
 	   
 	   Scanner scan = new Scanner(System.in);
@@ -309,22 +321,5 @@ Account(Map<String, String> prefs){
        }
   
    }
-  
- public void showPreferences(){
-   System.out.println(this.name);
-     System.out.println(this.mailBox);
-     System.out.println(this.password);
-     System.out.println(this.smtpHost);
-     System.out.println(this.smtpPort);
-     if (this.imapHost!=null & this.imapPort!=null) {
-     System.out.println("Imap Host= " + this.imapHost);
-     System.out.println("Imap Port= " + this.imapPort);
-     }
-     else {
-     System.out.println(this.popHost);
-     System.out.println(this.popPort);
-     }
-  }
-
-  
-}
+    
+} //class

@@ -29,7 +29,7 @@ public class Dbworks {
     public static void writeAccPrefs(Map <String, String> prefs) throws SQLException
     {
    
-    	String insertQ = "INSERT INTO 'account' ('name' , 'mailbox' , 'password' , 'smtphost' , "
+    	String insertQ = "INSERT INTO 'account' ('name' , 'mailbox' , 'password' , 'username','smtphost' , "
     			+ "'smtpport' , 'imaphost' , 'imapport' , 'pophost' , 'popport' , 'smtpauth' , 'smtpstarttlsenable')"
     			+ "VALUES ('"+ prefs.get("name") + "','" + prefs.get("mailbox") + "','" + prefs.get("password") + "','" 
     			+ prefs.get("username")+ "','"+ prefs.get("smtphost") + "','" + prefs.get("smtpport") +"','" + prefs.get("imaphost") + "','" 
