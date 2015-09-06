@@ -42,7 +42,7 @@ public class Dbworks {
     }
     
     // --------ИЗВЛЕЧЕНИЕ СВОЙСТВ АККАУНТА ИЗ БАЗЫ ДАННЫХ--------
-     public static void  getAccPrefs(String accMailBox) throws SQLException{
+     public static void  getAccPrefs(String accMailBox) throws SQLException, ClassNotFoundException{
     	 
     	 String selectQ = "SELECT * FROM account WHERE mailbox = '" + accMailBox  + "';";
     	 resSet = statmt.executeQuery(selectQ);
@@ -59,6 +59,7 @@ public class Dbworks {
   Account.preferencies.put( "popport", resSet.getString("popport"));
   Account.preferencies.put( "smtpauth", resSet.getString("smtpauth"));
   Account.preferencies.put( "smtpstarttlsenable", resSet.getString("smtpstarttlsenable"));
+  Dbworks.CloseDB();
     }   
     
     

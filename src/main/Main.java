@@ -1,13 +1,14 @@
 package main;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
 import mailer.Account;
-import mailer.Mail;
 import mailer.Dbworks;
+import mailer.Mail;
 
 
 
@@ -17,6 +18,22 @@ public class Main {
 	static String mailboxes[] = new String[100];
 	static int accChose;
 	static Scanner scan = new Scanner(System.in);
+	static boolean accountExists;
+	
+	static boolean accountExists() throws ClassNotFoundException, SQLException{
+		mailer.Dbworks.Conn();
+		String countQ="SELECT COUNT(*) FROM account;";
+		ResultSet rs = mailer.Dbworks.statmt.executeQuery(countQ);
+		if (rs.getInt(1) >0){
+		//System.out.println(rs.getInt(1));
+		mailer.Dbworks.CloseDB();
+		return true;
+		}
+		else{
+			mailer.Dbworks.CloseDB();
+			return false;
+		}
+	}
 	
 	static	void choseMenuNoAcc(){
 		
@@ -35,13 +52,14 @@ public class Main {
 		String insertQ = "SELECT name, mailbox from account;";
 		ResultSet rs = mailer.Dbworks.statmt.executeQuery(insertQ);
 		System.out.println("Your accounts:");
+		//Dbworks.CloseDB();
 		return rs;
 	   }
 
 	static String[] setMailboxesArray(ResultSet rs) throws SQLException, ClassNotFoundException{
 		
 		int counter=0;
-		mailer.Dbworks.Conn();
+		//mailer.Dbworks.Conn();
 		while(rs.next()){
 			counter++;
 			System.out.print(counter + ") ");
@@ -60,14 +78,22 @@ public class Main {
 		return accChose;
 		
 		
+		
 	}
 	
 	
 // --------------------------- ТОЧКА ВХОДА В ПРОГРАММУ-----------------------------------------------------------------------------------
 	
-public static void main(String[] args) throws UnsupportedEncodingException, SQLException, ClassNotFoundException {
+public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException {
+
 
 	System.out.println("Hi there! This is WOWMail! The dumbest program in the world. It`s like a gayworm shit.");
+	
+	accountExists = accountExists();
+	if (!accountExists){
+		System.out.println("You don`t have account. Please, add it with 'Properties' menu.");
+	}
+	else {
 	
 	// Выбор почтового аккаунта для работы с помощью диалогов.
 	
@@ -76,7 +102,7 @@ public static void main(String[] args) throws UnsupportedEncodingException, SQLE
 	//Извлечение из базы данных аккаунтов  настроек для выбранного аккаунта.
 	
 	Dbworks.getAccPrefs(mailboxes[accChose ]);
-
+	}
 	
 	int chose=0;
 	while (chose != 4){
@@ -87,19 +113,24 @@ public static void main(String[] args) throws UnsupportedEncodingException, SQLE
     chose = scan.nextInt();	
    	switch(chose){
 	case 1:
-		
+
 		System.out.println("You reading your E-mail");
 		break;
 		
 	case 2: 
-		
+		if (!accountExists){
+			System.out.println("You don`t have account. Please, add it with 'Properties' menu.");
+		}
+		else{
 	Account account = Account.createAccObject(Account.preferencies);
 	Mail mail = new Mail();
     mail.setToFromText();
     mail.compileAndSend(account);
-    break;
+    	}
+		break;
 		
 	case 3:
+		
 		propertiesMenu();
 		int PropertiesChose=0;
 		PropertiesChose = scan.nextInt();
@@ -121,8 +152,18 @@ public static void main(String[] args) throws UnsupportedEncodingException, SQLE
 				  break;
 					  
 			case 2:
-			
-				System.out.println("Under construction");
+				accountExists = accountExists();
+				if (!accountExists){
+					System.out.println("You don`t have account. Please, add it with 'Properties' menu.");
+				}
+				else {
+
+				
+				accChose = setAccChoseWithDialog(setMailboxesArray(dbQuertForAccounts()));
+				
+				
+				Dbworks.getAccPrefs(mailboxes[accChose ]);
+				}
 				PropertiesChose=4;
 				break;
 			
