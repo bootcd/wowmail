@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+import javax.mail.MessagingException;
+
 import mailer.Account;
 import mailer.Dbworks;
 import mailer.Mail;
@@ -21,16 +23,16 @@ public class Main {
 	static boolean accountExists;
 	
 	static boolean accountExists() throws ClassNotFoundException, SQLException{
-		mailer.Dbworks.Conn();
+		Dbworks.Conn();
 		String countQ="SELECT COUNT(*) FROM account;";
 		ResultSet rs = mailer.Dbworks.statmt.executeQuery(countQ);
 		if (rs.getInt(1) >0){
 		//System.out.println(rs.getInt(1));
-		mailer.Dbworks.CloseDB();
+		Dbworks.CloseDB();
 		return true;
 		}
 		else{
-			mailer.Dbworks.CloseDB();
+			Dbworks.CloseDB();
 			return false;
 		}
 	}
@@ -48,9 +50,9 @@ public class Main {
 
 	static ResultSet dbQuertForAccounts() throws ClassNotFoundException, SQLException{
 		
-		mailer.Dbworks.Conn();
+		Dbworks.Conn();
 		String insertQ = "SELECT name, mailbox from account;";
-		ResultSet rs = mailer.Dbworks.statmt.executeQuery(insertQ);
+		ResultSet rs = Dbworks.statmt.executeQuery(insertQ);
 		System.out.println("Your accounts:");
 		//Dbworks.CloseDB();
 		return rs;
@@ -84,13 +86,13 @@ public class Main {
 	
 // --------------------------- ТОЧКА ВХОДА В ПРОГРАММУ-----------------------------------------------------------------------------------
 	
-public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException {
+public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException, MessagingException {
 
 
 	System.out.println("Hi there! This is WOWMail! The dumbest program in the world. It`s like a gayworm shit.");
 	
-	accountExists = accountExists();
-	if (!accountExists){
+	
+	if (!accountExists()){
 		System.out.println("You don`t have account. Please, add it with 'Properties' menu.");
 	}
 	else {
@@ -118,15 +120,12 @@ public static void main(String[] args) throws SQLException, ClassNotFoundExcepti
 		break;
 		
 	case 2: 
-		if (!accountExists){
-			System.out.println("You don`t have account. Please, add it with 'Properties' menu.");
-		}
-		else{
+
 	Account account = Account.createAccObject(Account.preferencies);
 	Mail mail = new Mail();
     mail.setToFromText();
-    mail.compileAndSend(account);
-    	}
+    mail.Send(mail.Compile(account));
+
 		break;
 		
 	case 3:
@@ -188,6 +187,6 @@ public static void main(String[] args) throws SQLException, ClassNotFoundExcepti
 	System.exit(1);
 	
 	}
-} //class
+} 
 
 

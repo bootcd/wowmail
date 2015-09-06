@@ -75,7 +75,7 @@ public class Mail {
 	
 	
 	
-	public void compileAndSend(Account account) throws UnsupportedEncodingException{
+	public Message Compile(Account account) throws UnsupportedEncodingException{
 		
 		Session session = Session.getInstance(setProps(account), new Authenticator(){
 			protected PasswordAuthentication getPasswordAuthentication() 
@@ -89,17 +89,20 @@ public class Mail {
 		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
 		message.setSubject(subject);
 		message.setText(text);
-		Transport.send(message);
+		return message;
+		
 	}
 	
 		catch (MessagingException e){
 			throw new RuntimeException(e);
 			
 		}
-	
-	System.out.println("Your mail was send ");
 
 }
+	public void Send(Message message) throws MessagingException{
+		Transport.send(message);
+		System.out.println("Your mail was send ");
+		}
 
 	
 }
