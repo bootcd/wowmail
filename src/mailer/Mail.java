@@ -6,16 +6,24 @@ import java.util.Scanner;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import com.sun.mail.smtp.SMTPTransport;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.Authenticator;
+import javax.mail.BodyPart;
 
+import mailer.Attachment;
 
 public class Mail {
 	
@@ -84,14 +92,47 @@ public class Mail {
 		
 		try {
 			Message message = new MimeMessage (session);
-		
-		message.setFrom(new InternetAddress(account.getmailBox(), account.getName()));
-		message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-		message.setSubject(subject);
-		message.setText(text);
-		return message;
-		
-	}
+			message.setFrom(new InternetAddress(account.getmailBox(), account.getName()));
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+			message.setSubject(subject);
+			message.setText(text);
+			Scanner input = new Scanner(System.in);
+			
+			System.out.println("Want attach? Chose Yes or NO");
+			System.out.println("1)Yes 2)NO");
+			int chose = input.nextInt();
+			
+			if (chose==1) {
+				
+				BodyPart messageBodyPart = new MimeBodyPart();
+				messageBodyPart.setText(text);
+				Multipart multipart = new MimeMultipart();
+				multipart.addBodyPart(messageBodyPart);
+			
+			
+			while (chose!=2){
+				messageBodyPart = new MimeBodyPart();
+				Attachment attachment = new Attachment();
+				System.out.print("Insert path to file");
+				Scanner pathInput = new Scanner(System.in);
+				String pathName = pathInput.nextLine();
+				attachment.setPath(pathName);
+				
+				DataSource source = new FileDataSource(attachment.getPathName());
+				messageBodyPart.setDataHandler(new DataHandler(source));
+				messageBodyPart.setFileName(attachment.getPathName());
+				multipart.addBodyPart(messageBodyPart);
+				System.out.println("Want more attachment");
+				System.out.println("1)Yes 2)NO");
+				chose=input.nextInt();}
+			    message.setContent(multipart);
+				return message;
+				
+			}
+			return message;
+			
+		}
+
 	
 		catch (MessagingException e){
 			throw new RuntimeException(e);
